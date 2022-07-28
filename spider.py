@@ -1,3 +1,5 @@
+import threading
+
 import requests
 from bs4 import BeautifulSoup
 import model
@@ -18,7 +20,6 @@ SELECTORS = {
 def page_spider(max_pages):
     page = 1
     while page < max_pages:
-        print(page)
         url = LIST_URL + str(page) + '/'
         source_code = requests.get(url)
         plain_text = source_code.text
@@ -26,7 +27,8 @@ def page_spider(max_pages):
         for item in soup.findAll('h2', {'class': SELECTORS['LIST_ITEM_TITLE']}):
             href = BASE_URL + item.find('a')['href']
             if href is not None:
-                single_item_data(href)
+                t = threading.Thread(target=single_item_data, args=(href,))
+                t.start()
         page += 1
 
 def single_item_data(item_url):

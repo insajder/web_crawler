@@ -1,0 +1,22 @@
+{% extends 'index.html' %}
+
+{% block content %}
+
+<table class="table">
+  <thead>
+    <tr>
+    {% for key, value in real_estate.items() %}
+        <th>{{ key }}</th>
+    {% endfor %}
+    </tr>
+  </thead>
+  <tbody>
+  <tr>
+  {% for key, value in real_estate.items() %}
+      <td> {{ value }}</td>
+  {% endfor %}
+  </tr>
+  </tbody>
+</table>
+
+{% endblock %}
