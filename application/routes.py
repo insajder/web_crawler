@@ -1,7 +1,12 @@
+import ast
+from operator import and_
+
 from flask import Blueprint, render_template, request, redirect, url_for
+
 from ..model import RealEstate
 
 main = Blueprint('main', __name__)
+filter_data = Blueprint('filter_data', __name__, url_prefix='/filter')
 
 @main.route('/', methods=('GET', 'POST'))
 def index():
@@ -20,3 +25,45 @@ def get_id(id):
         return render_template('single_real_estate.html', real_estate=real_estate)
 
     return "Not found."
+
+@filter_data.route('/', methods=('GET', 'POST'))
+def filter():
+    if request.method == 'POST':
+        results = {
+            'type': request.form.get('type'),
+            'min': request.form['min'],
+            'max': request.form['max'],
+            'parking': request.form.get('parking')
+        }
+        return redirect(url_for('filter_data.get_filter_data', results=results))
+
+    return render_template('filter.html')
+
+@filter_data.route('/<results>')
+def get_filter_data(results):
+    results_dict = ast.literal_eval(results)
+    filters = []
+
+    if results_dict['type'] is not None:
+        filters.append(RealEstate.type == results_dict['type'])
+
+    if results_dict['min'] != '' and results_dict['max'] != '':
+        filters.append(RealEstate.quadrature.between(float(results_dict['min']), float(results_dict['max'])))
+    elif results_dict['min'] != '' and results_dict['max'] == '':
+        filters.append(RealEstate.quadrature > float(results_dict['min']))
+    elif results_dict['min'] == '' and results_dict['max'] != '':
+        filters.append(RealEstate.quadrature < float(results_dict['max']))
+
+    if results_dict['parking'] is not None:
+        filters.append(RealEstate.parking == 'Da')
+    else:
+        filters.append(RealEstate.parking.in_(['Ne', None]))
+
+    model_list = RealEstate.query.filter(*filters).all()
+    real_estates = []
+
+    for i in range(len(model_list)):
+        real_estates.append(model_list[i].__dict__)
+        del real_estates[i]['_sa_instance_state']
+
+    return render_template('list_real_estate.html', real_estates=real_estates)

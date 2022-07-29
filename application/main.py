@@ -1,7 +1,7 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
-from .routes import main
+from .routes import main, filter_data
 
 def create_app():
     app = Flask(__name__)
@@ -14,5 +14,6 @@ def create_app():
     db.init_app(app)
 
     app.register_blueprint(main)
+    app.register_blueprint(filter_data)
 
     return app
