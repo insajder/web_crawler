@@ -1,8 +1,5 @@
 import ast
-from operator import and_
-
 from flask import Blueprint, render_template, request, redirect, url_for
-
 from ..model import RealEstate
 
 main = Blueprint('main', __name__)

@@ -7,7 +7,6 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://Jelena:1234@localhost/webcrawle
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db = SQLAlchemy(app)
 
-
 class RealEstate(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     type = db.Column(db.String(20), nullable=False)

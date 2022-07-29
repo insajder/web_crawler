@@ -1,6 +1,5 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-
 from .routes import main, filter_data
 
 def create_app():
