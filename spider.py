@@ -1,7 +1,6 @@
 import threading
 import requests
 from bs4 import BeautifulSoup
-import model
 
 model.db.drop_all()
 model.db.create_all()
