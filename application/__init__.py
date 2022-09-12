@@ -1,2 +1,1 @@
-from .main import create_app
-from .config import db
+from .main import create_app, db

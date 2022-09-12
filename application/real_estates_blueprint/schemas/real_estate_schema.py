@@ -1,5 +1,5 @@
 from marshmallow import Schema, fields, post_load, validates
-from application.real_estates_blueprint.view_models import RealEstateViewModel
+from application.real_estates_blueprint.view_models import RealEstateViewModel, RealEstateQueryParamsViewModel
 
 
 class RealEstateRequestSchema(Schema):
@@ -17,7 +17,7 @@ class RealEstateRequestQueryParamsSchema(Schema):
 
     @post_load()
     def post_load(self, data, **kwargs):
-        return RealEstateViewModel(**data)
+        return RealEstateQueryParamsViewModel(**data)
 
 class RealEstateResponseSchema(Schema):
     id = fields.Int()

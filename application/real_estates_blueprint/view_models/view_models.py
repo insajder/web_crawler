@@ -1,9 +1,10 @@
 class RealEstateViewModel:
     def __init__(self, **kwargs):
-        if kwargs.get('id'):
-            self.id = kwargs.get('id')
-        else:
-            self.type = kwargs.get('type')
-            self.min = kwargs.get('min')
-            self.max = kwargs.get('max')
-            self.parking = kwargs.get('parking')
+        self.id = kwargs.get('id')
+
+class RealEstateQueryParamsViewModel:
+    def __init__(self, **kwargs):
+        self.type = kwargs.get('type')
+        self.min = kwargs.get('min')
+        self.max = kwargs.get('max')
+        self.parking = kwargs.get('parking')
