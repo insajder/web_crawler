@@ -1,9 +1,10 @@
 import threading
 import requests
 from bs4 import BeautifulSoup
+from application.data_layer import uow
 
-model.db.drop_all()
-model.db.create_all()
+uow.real_estate_dao.drop_real_estate()
+uow.real_estate_dao.create_real_estate()
 
 BASE_URL = 'https://www.nekretnine.rs'
 LIST_URL = BASE_URL + '/stambeni-objekti/lista/po-stranici/10/stranica/'
@@ -85,8 +86,8 @@ def single_item_data(item_url):
                 if 'Sobe' in li:
                     rooms = li.split(':')[1].strip()
                 if 'Sprat' in li:
-                    total_floors = li.split(':')[1].split('/')[0].strip()
-                    floor = li.split(':')[1].split('/')[1].strip()
+                    floor = li.split(':')[1].split('/')[0].strip()
+                    total_floors = li.split(':')[1].split('/')[1].strip()
 
         details = soup.select_one(SELECTORS['OTHER_DETAILS'])
         if details is not None:
@@ -95,7 +96,7 @@ def single_item_data(item_url):
                 equipment += el.text.strip() + ', '
             equipment = equipment[:-2]
 
-        model.insert_row(type, offer, location, quadrature, year_built, land_area, total_floors, floor, registered,
+        uow.real_estate_dao.insert_row_real_estate(type, offer, location, quadrature, year_built, land_area, total_floors, floor, registered,
                          heating_type, rooms, toilets, parking, equipment)
     except:
         print('Failed to parse page: ' + item_url)
