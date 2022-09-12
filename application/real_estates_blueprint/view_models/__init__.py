@@ -1,1 +1,1 @@
-from .view_models import RealEstate
+from .view_models import RealEstateViewModel, RealEstateQueryParamsViewModel

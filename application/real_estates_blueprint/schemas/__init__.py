@@ -1,1 +1,1 @@
-from .real_estate import RealEstateRequestSchema, RealEstateResponseSchema
+from .real_estate_schema import RealEstateRequestSchema, RealEstateResponseSchema, RealEstateRequestQueryParamsSchema
